@@ -24,13 +24,41 @@
 
 ​	要求：分别用高斯滤波器和中值滤波器去平滑测试图像test1和2，模板大小分别是3x3 ， 5x5 ，7x7； 分析各自优缺点。
 
+
+
 ​	**中值滤波**是一种非线性平滑技术，它将每一像素点的灰度值设置为该点某邻域窗口内的所有像素点灰度值的中值，对去椒盐噪声十分有效。中值滤波可以使用matlab中的medfilt2函数实现。
 
+代码示例：
+
+```matlab
+i1=imread('test1.pgm');
+i2=imread('test2.tif'); %2 original images
+ioutm13=medfilt2(i1,[3,3]);
+ioutm15=medfilt2(i1,[5,5]);
+ioutm17=medfilt2(i1,[7,7]);
+ioutm23=medfilt2(i2,[3,3]);
+ioutm25=medfilt2(i2,[5,5]);
+ioutm27=medfilt2(i2,[7,7]);%median filtering output
+```
 ![](https://raw.githubusercontent.com/kathyrkh/rkhimages/master/me1.png)
 
 ![](https://raw.githubusercontent.com/kathyrkh/rkhimages/master/me2.png)
 
 ​	**高斯滤波**是一种线性平滑滤波，适用于消除高斯噪声，广泛应用于图像处理的减噪过程。高斯滤波是对整幅图像进行加权平均的过程，每一个像素点的值都由其本身和邻域内的其他像素值经过加权平均后得到。具体操作是：用一个模板（或称卷积、掩模）扫描图像中的每一个像素，用模板确定的邻域内像素的加权平均灰度值去替代模板中心像素点的值。matlab中可使用fspecial('gaussian',[n n])和imfilter函数实现图像的高斯滤波。
+
+代码示例：
+
+```matlab
+ga3 = fspecial('gaussian',[3 3]);
+ga5 = fspecial('gaussian',[5 5]);
+ga7 = fspecial('gaussian',[7 7]);
+ioutg13=imfilter(i1,ga3,'replicate');
+ioutg15=imfilter(i1,ga5,'replicate');
+ioutg17=imfilter(i1,ga7,'replicate');
+ioutg23=imfilter(i2,ga3,'replicate');
+ioutg25=imfilter(i2,ga5,'replicate');
+ioutg27=imfilter(i2,ga7,'replicate');%gaussian filtering output
+```
 
 ![](https://raw.githubusercontent.com/kathyrkh/rkhimages/master/me3.png)
 
@@ -44,7 +72,28 @@
 
 ​	要求：利用固定方差 sigma=1.5产生高斯滤波器.。附件有产生高斯滤波器的方法，分析各自优缺点。
 
- 	matlab中使用fspecial函数的gaussian类型时有两个参数，hsize表示模板尺寸，默认值为[3 3]，sigma为滤波器的标准差，单位为像素，默认值为0.5。以下是sigma=0.5和sigma=1.5时的平滑效果比较。
+ 	matlab中使用fspecial函数的gaussian类型时有两个参数，hsize表示模板尺寸，默认值为[3 3]，sigma为滤波器的标准差，单位为像素，默认值为0.5。
+  
+  代码示例：
+
+```matlab
+clear all;clc;
+i1=imread('test1.pgm'); %original images
+g1=fspecial('gaussian',[5,5]);
+g2=fspecial('gaussian',[5,5],1.5);
+g3=fspecial('gaussian',[7,7]);
+g4=fspecial('gaussian',[7,7],1.5);
+g5=fspecial('gaussian',[3,3]);
+g6=fspecial('gaussian',[3,3],1.5);
+iout1=imfilter(i1,g1,'replicate');
+iout2=imfilter(i1,g2,'replicate');
+iout3=imfilter(i1,g3,'replicate');
+iout4=imfilter(i1,g4,'replicate');
+iout5=imfilter(i1,g5,'replicate');
+iout6=imfilter(i1,g6,'replicate');
+```
+  
+  以下是sigma=0.5和sigma=1.5时的平滑效果比较。
 
 
 
@@ -65,6 +114,25 @@
 ##### 3.空域高通滤波器
 
 ​	要求：利用高通滤波器滤波测试图像test3,4：包括unsharp masking, Sobel edge detector, and Laplace edge detection；Canny algorithm.分析各自优缺点。
+
+
+
+代码示例：
+
+```matlab
+i3=imread('test3_corrupt.pgm');
+i4=imread('test4 copy.bmp');
+i3out_um=imsharpen(i3);
+i4out_um=imsharpen(i4);
+i3out_se=edge(i3,'sobel');
+i4out_se=edge(i4,'sobel');
+lf=fspecial('laplacian');
+i3out_le=imfilter(i3,lf,'replicate');
+i4out_le=imfilter(i4,lf,'replicate');
+i3out_ca=edge(i3,'canny');
+i4out_ca=edge(i4,'canny');
+```
+
 
 结果如下：
 
