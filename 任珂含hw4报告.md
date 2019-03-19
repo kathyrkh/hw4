@@ -144,7 +144,7 @@ i4out_ca=edge(i4,'canny');
 
 ![](https://raw.githubusercontent.com/kathyrkh/rkhimages/master/yt1.png)
 
-​	对比发现，默认参数下unsharp masking的锐化效果并不明显。将锐化强度调到2，锐化效果明显多了，例如房屋的砖块边缘更清晰，黑白方块的边界也减少了模糊感：
+​	对比发现，默认参数下unsharp masking的锐化效果并不明显。将强度调到2，锐化效果明显多了，例如房屋的砖块边缘更清晰，黑白方块的边界也减少了模糊感：
 
 ![](https://raw.githubusercontent.com/kathyrkh/rkhimages/master/um4.png)
 
