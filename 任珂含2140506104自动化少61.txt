@@ -1,0 +1,111 @@
+%%Q1
+clear all;clc;
+i1=imread('test1.pgm');
+i2=imread('test2.tif'); %2 original images
+ioutm13=medfilt2(i1,[3,3]);
+ioutm15=medfilt2(i1,[5,5]);
+ioutm17=medfilt2(i1,[7,7]);
+ioutm23=medfilt2(i2,[3,3]);
+ioutm25=medfilt2(i2,[5,5]);
+ioutm27=medfilt2(i2,[7,7]);%median filtering output
+figure(1);
+subplot(2,2,1);imshow(i1);title('test1');
+subplot(2,2,2);imshow(ioutm13);title('test1-3');
+subplot(2,2,3);imshow(ioutm15);title('test1-5');
+subplot(2,2,4);imshow(ioutm17);title('test1-7');
+saveas(gcf,'me1.png');%saving image
+figure(2);
+subplot(2,2,1);imshow(i2);title('test2');
+subplot(2,2,2);imshow(ioutm23);title('test2-3');
+subplot(2,2,3);imshow(ioutm25);title('test2-5');
+subplot(2,2,4);imshow(ioutm27);title('test2-7');
+saveas(gcf,'me2.png');%saving image
+
+ga3 = fspecial('gaussian',[3 3]);
+ga5 = fspecial('gaussian',[5 5]);
+ga7 = fspecial('gaussian',[7 7]);
+ioutg13=imfilter(i1,ga3,'replicate');
+ioutg15=imfilter(i1,ga5,'replicate');
+ioutg17=imfilter(i1,ga7,'replicate');
+ioutg23=imfilter(i2,ga3,'replicate');
+ioutg25=imfilter(i2,ga5,'replicate');
+ioutg27=imfilter(i2,ga7,'replicate');%gaussian filtering output
+figure(3);
+subplot(2,2,1);imshow(i1);title('test1');
+subplot(2,2,2);imshow(ioutg13);title('test1-3');
+subplot(2,2,3);imshow(ioutg15);title('test1-5');
+subplot(2,2,4);imshow(ioutg17);title('test1-7');
+saveas(gcf,'ga3.png');%saving image
+figure(4);
+subplot(2,2,1);imshow(i2);title('test2');
+subplot(2,2,2);imshow(ioutg23);title('test2-3');
+subplot(2,2,3);imshow(ioutg25);title('test2-5');
+subplot(2,2,4);imshow(ioutg27);title('test2-7');
+saveas(gcf,'ga4.png');%saving image
+
+%%Q2
+clear all;clc;
+i1=imread('test1.pgm'); %original images
+g1=fspecial('gaussian',[5,5]);
+g2=fspecial('gaussian',[5,5],1.5);
+g3=fspecial('gaussian',[7,7]);
+g4=fspecial('gaussian',[7,7],1.5);
+g5=fspecial('gaussian',[3,3]);
+g6=fspecial('gaussian',[3,3],1.5);
+iout1=imfilter(i1,g1,'replicate');
+iout2=imfilter(i1,g2,'replicate');
+iout3=imfilter(i1,g3,'replicate');
+iout4=imfilter(i1,g4,'replicate');
+iout5=imfilter(i1,g5,'replicate');
+iout6=imfilter(i1,g6,'replicate');
+figure;
+subplot(3,2,1);imshow(iout5);title('3x3默认sigma=0.5');
+subplot(3,2,2);imshow(iout6);title('3x3sigma=1.5');
+subplot(3,2,3);imshow(iout1);title('5x5默认sigma=0.5');
+subplot(3,2,4);imshow(iout2);title('5x5sigma=1.5');
+subplot(3,2,5);imshow(iout3);title('7x7默认sigma=0.5');
+subplot(3,2,6);imshow(iout4);title('7x7sigma=1.5');
+saveas(gcf,'gaussian.png');%saving image
+
+%%Q3
+clear all;clc;
+i3=imread('test3_corrupt.pgm');
+i4=imread('test4 copy.bmp');
+i3out_um=imsharpen(i3);
+i4out_um=imsharpen(i4);
+i3out_se=edge(i3,'sobel');
+i4out_se=edge(i4,'sobel');
+lf=fspecial('laplacian');
+i3out_le=imfilter(i3,lf,'replicate');
+i4out_le=imfilter(i4,lf,'replicate');
+i3out_ca=edge(i3,'canny');
+i4out_ca=edge(i4,'canny');
+figure(1);
+subplot(1,2,1);imshow(i3);title('test3');
+subplot(1,2,2);imshow(i3out_um);title('unsharp masking');
+saveas(gcf,'yt1.png');
+figure(2);
+subplot(2,2,1);imshow(i3out_um);title('unsharp masking');
+subplot(2,2,2);imshow(i3out_se);title('Sobel edge detector');
+subplot(2,2,3);imshow(i3out_le);title(' Laplace edge detection');
+subplot(2,2,4);imshow(i3out_ca);title('Canny algorithm');
+saveas(gcf,'gt1.png');
+figure(3);
+subplot(1,2,1);imshow(i4);title('test4');
+subplot(1,2,2);imshow(i4out_um);title('unsharp masking');
+saveas(gcf,'yt2.png');
+figure(4);
+subplot(2,2,1);imshow(i4out_um);title('unsharp masking');
+subplot(2,2,2);imshow(i4out_se);title('Sobel edge detector');
+subplot(2,2,3);imshow(i4out_le);title(' Laplace edge detection');
+subplot(2,2,4);imshow(i4out_ca);title('Canny algorithm');
+saveas(gcf,'gt2.png');
+
+% i4out_um2=imsharpen(i4,'Amount',2);%增强um锐化强度
+% figure(3);
+% subplot(1,2,1);imshow(i4);title('test4');
+% subplot(1,2,2);imshow(i4out_um2);title('unsharp masking2');saveas(gcf,'um4.png');
+% i3out_um2=imsharpen(i3,'Amount',2);
+% figure(4);
+% subplot(1,2,1);imshow(i3);title('test3');
+% subplot(1,2,2);imshow(i3out_um2);title('unsharp masking2');saveas(gcf,'um3.png');
