@@ -46,7 +46,7 @@
 
  	matlab中使用fspecial函数的gaussian类型时有两个参数，hsize表示模板尺寸，默认值为[3 3]，sigma为滤波器的标准差，单位为像素，默认值为0.5。以下是sigma=0.5和sigma=1.5时的平滑效果比较。
 
-![](https://raw.githubusercontent.com/kathyrkh/rkhimages/master/gaussian1.png)
+
 
 ![](https://raw.githubusercontent.com/kathyrkh/rkhimages/master/gau1.png)
 
